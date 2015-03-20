@@ -4,7 +4,7 @@
 #define FOOD 36
 #define BOUNDARY 35
 #define SNAKE 42
-#define DEFAULT_WIDTH 4
+#define DEFAULT_WIDTH 5
 
 typedef struct {
 	unsigned int x;
@@ -40,6 +40,17 @@ Snake* create_snake(const unsigned int width, const unsigned int height) {
 }
 
 /**
+	* Insert a snake on the screen based on the position of the snake.
+	*/
+void set_snake_on_screen(Screen * const screen) {
+	int i, x, y;
+	for(i = 0; i < screen->snake->length; i++) {
+		x = screen->snake->position[i]->x;
+		y = screen->snake->position[i]->y;		
+		screen->cells[x][y] = SNAKE;
+	}
+}
+/**
 	* Create a screen based on the width and height sent as arguments. Also sets its snake field with the return of create_snake routine.
 	*/
 Screen* create_screen(const unsigned int width, const unsigned int height) {
@@ -48,7 +59,7 @@ Screen* create_screen(const unsigned int width, const unsigned int height) {
 	new_screen->width = width;
 	new_screen->height = height;
 	new_screen->cells = calloc(height, sizeof(int *));
-	new_screen->snake = malloc(sizeof(Snake));
+	new_screen->snake = create_snake(width, height);
 	
 	for(i = 0; i < height; i++) {
 		new_screen->cells[i] = calloc(width, sizeof(int));
@@ -59,7 +70,7 @@ Screen* create_screen(const unsigned int width, const unsigned int height) {
 /**
 	* Set a screen with default attributes. Sets its boundaries as '#' characters, its empty spaces as ' ', its snake as a collection of '*' and its food as '$' based on ASCII.
 	*/
-void set_screen(Screen* screen) {
+void set_screen(Screen * const screen) {
 	int i, j;
 	
 	for(i = 0; i < screen->height; i++) {
@@ -71,9 +82,11 @@ void set_screen(Screen* screen) {
 			}
 		}
 	}
+
+	set_snake_on_screen(screen);
 }
 
-void display_screen(Screen* screen) {
+void display_screen(const Screen * const screen) {
 	int i, j;
 	
 	for(i = 0; i < screen->height; i++) {
