@@ -23,7 +23,8 @@ Snake* create_snake(const unsigned int width, const unsigned int height) {
 	*/
 void set_snake_on_screen(Screen * const screen) {
 	int i, x, y;
-	printf("\n\nSNAKE'S POSITIONS DIRECTION: %d UP: %d DOWN: %d RIGHT: %d LEFT: %d\n\n", screen->snake->direction, UP, DOWN, RIGHT, LEFT);
+	//printf("\n\nSNAKE'S POSITIONS DIRECTION: %d UP: %d DOWN: %d RIGHT: %d LEFT: %d\n\n", screen->snake->direction, UP, DOWN, RIGHT, LEFT);
+	printf("\n\n\t%s\n\n%s: %d\n\n", "SNAKE", "Score", score);
 	for(i = 0; i < screen->snake->length; i++) {
 		printf("[%d, ", x = screen->snake->position[i]->x);
 		printf("%d]\n", y = screen->snake->position[i]->y);		
@@ -40,6 +41,7 @@ Screen* create_screen(const unsigned int width, const unsigned int height) {
 	new_screen->height = height;
 	new_screen->cells = calloc(height, sizeof(int *));
 	new_screen->snake = create_snake(width, height);
+	new_screen->score = 0;
 	
 	for(i = 0; i < height; i++) {
 		new_screen->cells[i] = calloc(width, sizeof(int));
@@ -116,7 +118,7 @@ void move_snake(Screen * const screen, Direction next_direction) {
 		for(i = 3; i < screen->snake->length; i++) {
 			if(x == screen->snake->position[i]->x && y == screen->snake->position[i]->y)
 				GAME_STATUS = GAME_OVER;
-		} 
+		}
 
 		if(screen->cells[x][y] == BOUNDARY) {
 			if(x == 0) {

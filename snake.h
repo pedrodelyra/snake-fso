@@ -30,6 +30,7 @@ typedef struct {
 	unsigned int height;
 	unsigned int **cells;
 	Snake *snake;
+	int score;
 } Screen;
 
 Snake* create_snake(const unsigned int width, const unsigned int height);
