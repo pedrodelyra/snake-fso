@@ -6,6 +6,10 @@
 #define SNAKE 42
 #define DEFAULT_WIDTH 5
 
+typedef enum {
+	UP, DOWN, RIGHT, LEFT
+} Direction;
+
 typedef struct {
 	unsigned int x;
 	unsigned int y;
@@ -13,6 +17,7 @@ typedef struct {
 
 typedef struct {
 	unsigned int length;
+	Direction direction;
 	Coordinate **position;
 } Snake;
 
@@ -30,6 +35,7 @@ Snake* create_snake(const unsigned int width, const unsigned int height) {
 	int i;	
 	Snake* new_snake = malloc(sizeof(Snake));
 	new_snake->length = DEFAULT_WIDTH;
+	new_snake->direction = LEFT;
 	new_snake->position = calloc((width - 1) * (height - 1), sizeof(Coordinate *));
 	for(i = 0; i < DEFAULT_WIDTH; i++) {
 		new_snake->position[i] = malloc(sizeof(Coordinate));
@@ -64,6 +70,7 @@ Screen* create_screen(const unsigned int width, const unsigned int height) {
 	for(i = 0; i < height; i++) {
 		new_screen->cells[i] = calloc(width, sizeof(int));
 	}
+
 	return new_screen;
 }
 
@@ -97,8 +104,3 @@ void display_screen(const Screen * const screen) {
 	}
 }
 
-void main() {
-	Screen* my_screen = create_screen(40, 20);
-	set_screen(my_screen);
-	display_screen(my_screen);
-}

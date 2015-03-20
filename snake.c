@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "snake.h"
 
 /**
@@ -22,9 +23,10 @@ Snake* create_snake(const unsigned int width, const unsigned int height) {
 	*/
 void set_snake_on_screen(Screen * const screen) {
 	int i, x, y;
+	printf("\n\nSNAKE'S POSITIONS DIRECTION: %d UP: %d DOWN: %d RIGHT: %d LEFT: %d\n\n", screen->snake->direction, UP, DOWN, RIGHT, LEFT);
 	for(i = 0; i < screen->snake->length; i++) {
-		x = screen->snake->position[i]->x;
-		y = screen->snake->position[i]->y;		
+		printf("[%d, ", x = screen->snake->position[i]->x);
+		printf("%d]\n", y = screen->snake->position[i]->y);		
 		screen->cells[x][y] = SNAKE;
 	}
 }
@@ -76,3 +78,35 @@ void display_screen(const Screen * const screen) {
 	}
 }
 
+int validate_movement(Direction current_direction, Direction next_direction) {
+	if(current_direction == UP)
+		return next_direction != DOWN;
+	else if(current_direction == RIGHT)
+		return next_direction != LEFT;
+	else if(current_direction == DOWN)
+		return next_direction != UP;
+	else if(current_direction == LEFT)
+		return next_direction != RIGHT;
+}
+
+void move_snake(Screen * const screen, Direction next_direction) {
+	if(validate_movement(screen->snake->direction, next_direction)) {
+		int i, x, y; // last position's coordinate
+		screen->snake->direction = next_direction - '0'; // ATUALIZE O '0' AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		x = screen->snake->position[screen->snake->length - 1]->x;
+		y = screen->snake->position[screen->snake->length - 1]->y;
+		for(i = screen->snake->length - 1; i > 0; i--) {
+			screen->snake->position[i]->x = screen->snake->position[i - 1]->x;
+			screen->snake->position[i]->y = screen->snake->position[i - 1]->y;
+		}
+
+		if(screen->snake->direction == UP)
+			screen->snake->position[i]->x -= 1;
+		else if(screen->snake->direction == DOWN)
+			screen->snake->position[i]->x += 1;
+		else if(screen->snake->direction == RIGHT)
+			screen->snake->position[i]->y += 1;
+		else if(screen->snake->direction == LEFT)
+			screen->snake->position[i]->y -= 1;	
+	}
+}

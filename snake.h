@@ -38,3 +38,7 @@ void set_screen(Screen * const screen);
 
 void display_screen(const Screen * const screen);
 
+int validate_movement(Direction current_direction, Direction next_direction);
+
+void move_snake(Screen * const screen, Direction direction);
+
