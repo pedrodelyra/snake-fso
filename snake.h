@@ -6,6 +6,10 @@
 #define SNAKE 42
 #define DEFAULT_WIDTH 5
 
+enum {
+	GAME_OVER, PLAYING
+} GAME_STATUS;
+
 typedef enum {
 	UP, DOWN, RIGHT, LEFT
 } Direction;

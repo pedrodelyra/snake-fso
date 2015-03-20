@@ -91,22 +91,44 @@ int validate_movement(Direction current_direction, Direction next_direction) {
 
 void move_snake(Screen * const screen, Direction next_direction) {
 	if(validate_movement(screen->snake->direction, next_direction)) {
-		int i, x, y; // last position's coordinate
-		screen->snake->direction = next_direction - '0'; // ATUALIZE O '0' AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		x = screen->snake->position[screen->snake->length - 1]->x;
-		y = screen->snake->position[screen->snake->length - 1]->y;
+		int i, x, y;
+		screen->snake->direction = next_direction;
+		x = screen->snake->position[screen->snake->length - 1]->x; // last position's x coordinate
+		y = screen->snake->position[screen->snake->length - 1]->y; // last position's y coordinate
 		for(i = screen->snake->length - 1; i > 0; i--) {
 			screen->snake->position[i]->x = screen->snake->position[i - 1]->x;
 			screen->snake->position[i]->y = screen->snake->position[i - 1]->y;
 		}
 
-		if(screen->snake->direction == UP)
+		if(screen->snake->direction == UP) {
 			screen->snake->position[i]->x -= 1;
-		else if(screen->snake->direction == DOWN)
+		} else if(screen->snake->direction == DOWN) {
 			screen->snake->position[i]->x += 1;
-		else if(screen->snake->direction == RIGHT)
+		}	else if(screen->snake->direction == RIGHT) {
 			screen->snake->position[i]->y += 1;
-		else if(screen->snake->direction == LEFT)
+		} else if(screen->snake->direction == LEFT) {
 			screen->snake->position[i]->y -= 1;	
+		}
+
+		x = screen->snake->position[0]->x; // head's x coordinate
+		y = screen->snake->position[0]->y; // head's y coordinate
+
+		for(i = 3; i < screen->snake->length; i++) {
+			if(x == screen->snake->position[i]->x && y == screen->snake->position[i]->y)
+				GAME_STATUS = GAME_OVER;
+		} 
+
+		if(screen->cells[x][y] == BOUNDARY) {
+			if(x == 0) {
+				screen->snake->position[0]->x = screen->height - 2;
+			} else if(x == screen->height - 1) {
+				screen->snake->position[0]->x = 1;
+			} else if(y == 0) {
+				screen->snake->position[0]->y = screen->width - 2;
+			} else if(y == screen->width - 1) {
+				screen->snake->position[0]->y = 1;
+			}
+		}
 	}
 }
+
