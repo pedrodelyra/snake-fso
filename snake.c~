@@ -164,9 +164,11 @@ void move_snake(Screen * const screen, Direction next_direction) {
 		}
 
 		if(screen->cells[x][y] == FOOD) {
+			printf("OK1\n");
 			screen->snake->position[screen->snake->length]->x = old_x;
 			screen->snake->position[screen->snake->length]->y = old_y;
 			(screen->snake->length)++;
+			printf("OK2\n");
 			screen->cells[x][y] = SPACE;
 		}
 	}

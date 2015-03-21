@@ -37,7 +37,7 @@ Snake* create_snake(const unsigned int width, const unsigned int height);
 
 void set_snake_on_screen(Screen * const screen);
 
-void set_food_on_screen(Screen * const screen);
+void set_food_on_screen(Screen * const screen)
 
 Screen* create_screen(const unsigned int width, const unsigned int height);
 
