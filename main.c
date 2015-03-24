@@ -4,7 +4,7 @@
 #include "snake.h"
 #include "io.h"
 
-static Screen* screen;
+Screen* screen;
 
 void *read_user_data(void *arg) {
 	GAME_STATUS = PLAYING;	
@@ -31,6 +31,7 @@ int main(void) {
 		wait_for(0.1);
 		system("clear");
 	}
-	printf("\n\n\nGAME OVER\n\n\n");
+	printf("\n\n\n***** GAME OVER *****\n\n\n");
+	printf("SCORE: %d POINTS\n", screen->score);	
 	return 0;
 }
